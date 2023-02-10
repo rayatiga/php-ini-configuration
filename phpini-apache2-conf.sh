@@ -51,3 +51,5 @@ sed -i 's/post_max_size_here/8G/' $currentdir/php.ini
 sed -i 's/max_execution_time_here/300/' $currentdir/php.ini
 sed -i 's/memory_limit_here/4G/' $currentdir/php.ini
 sed -i 's/max_file_uploads_here/250/' $currentdir/php.ini
+
+# Below is under development
