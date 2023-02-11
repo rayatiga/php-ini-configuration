@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Set configuration for php.ini file inside apache2 http server
+# Set configuration for php.ini file inside apache2 http server.
 # Intende for big upload size and increase the site performance.
+# Supported by PHP 8.0 and up only.
 
 # STEP -1: root check
 if ! [ $(id -u) = 0 ]; then
