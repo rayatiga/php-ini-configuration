@@ -31,11 +31,11 @@ read -p "Enter max file upload (e.g. 100): " upfile
 
 # STEP 2: giving information about custom config
 printf "\nCustom config saved. Here the information: \n"
-printf "Upload max size = $(green)$upmax$(coloroff)
-        Post max size = $(green)$postmax$(coloroff)
-        Max execution time = $(green)$exectime$(coloroff)
-        Memory limit = $(green)$memlimit$(coloroff)
-        Max file upload = $(green)$upfile$(coloroff)\n\n"
+printf "Upload max size = ${green}$upmax${coloroff}
+        Post max size = ${green}$postmax${coloroff}
+        Max execution time = ${green}$exectime${coloroff}
+        Memory limit = ${green}$memlimit${coloroff}
+        Max file upload = ${green}$upfile${coloroff}\n\n"
 
 sed -i 's/upload_max_filesize_here/$upmax/' php-conf.ini
 sed -i 's/post_max_size_here/$postmax/' php-conf.ini
@@ -47,7 +47,7 @@ cp php-conf.ini php.ini
 rm php-cong.ini
 
 # STEP 3: information about copying custom php.ini
-printf "Copy and replace your php.ini file from $(green)$currentdir/php.ini$(coloroff) to $(green)/etc/php/(your-php-version)/apache2/php.ini$(coloroff)\n"
-printf "$(red)Important!$(coloroff) please backup your default/current active php.ini config incase the problem occurs.\n\n"
+printf "Copy and replace your php.ini file from ${green}$currentdir/php.ini${coloroff} to ${green}/etc/php/(your-php-version)/apache2/php.ini${coloroff}\n"
+printf "${red}Important!${coloroff} please backup your default/current active php.ini config incase the problem occurs.\n\n"
 
 printf "Done. Program terminated."
