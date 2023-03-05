@@ -2,7 +2,10 @@
 
 # Set configuration for php.ini file inside apache2 http server.
 # Intende for big upload size and increase the site performance.
-# Supported by PHP 8.0 and up only.
+
+coloroff='\033[0m'
+red='\033[0;31m' 
+green='\033[0;32m'
 
 # STEP -1: root check
 if ! [ $(id -u) = 0 ]; then
@@ -14,43 +17,37 @@ fi
 printf "\nPHP.ini apache2 tweaker script by https://github.com/bydzen/. Well managed.\n"
 printf "Any issue? go to https://github.com/rayatiga/phpini-apache2-conf/issues/. Create new issue.\n"
 printf "Visit more on https://github.com/rayatiga/phpini-apache2-conf/. GitHub repository.\n\n"
+$currentdir = $(pwd)
 
-# STEP 1: backuping file php.ini original
-while true; do
-    printf "Recommended for backuping php.ini file incase the problem may occur!\n"
-    read -p "Backup original php.ini file? (y/n): " yn
-    case $yn in
-    [Yy]*)
-        cp php-conf.ini /etc/php/
-        cd /etc/php/
-        cd $(ls -d * | grep 8.*)
-        cd apache2/
-        printf "\nBackuping php.ini file..."
-        sleep 1
-        cp php.ini php.ini.$(date +%m-%d-%Y).bak
-        cp php.ini ~/php.ini.$(date +%m-%d-%Y).bak
-        printf "\nBackuped. ✓\n"
-        sleep 1
-        break
-        ;;
-    [Nn]*)
-        printf "\nSkipped backup. ✓\n"
-        sleep 1
-        break
-        ;;
-    *) printf "Please answer 'Y/y' or 'N/n'.\n" ;;
-    esac
-done
+# STEP 1: creating php.ini file with custom config
+printf "Your current custom config .ini file: ./php-conf.ini\n"
+printf "Create a custom specification for your config.\n"
 
-# STEP 2: changing and replacing file php.ini
-currentdir=$(pwd)
+read -p "Enter upload max size (e.g. 2G): " upmax
+read -p "Enter post max size (e.g. 4G): " postmax
+read -p "Enter max exec time (without second) (e.g. 120): " exectime
+read -p "Enter memory limit (e.g. 2G): " memlimit
+read -p "Enter max file upload (e.g. 100): " upfile
 
-rm $currentdir/php.ini
+# STEP 2: giving information about custom config
+printf "\nCustom config saved. Here the information: \n"
+printf "Upload max size = $(green)$upmax$(coloroff)
+        Post max size = $(green)$postmax$(coloroff)
+        Max execution time = $(green)$exectime$(coloroff)
+        Memory limit = $(green)$memlimit$(coloroff)
+        Max file upload = $(green)$upfile$(coloroff)\n\n"
 
-sed -i 's/upload_max_filesize_here/2G/' $currentdir/php.ini
-sed -i 's/post_max_size_here/8G/' $currentdir/php.ini
-sed -i 's/max_execution_time_here/300/' $currentdir/php.ini
-sed -i 's/memory_limit_here/4G/' $currentdir/php.ini
-sed -i 's/max_file_uploads_here/250/' $currentdir/php.ini
+sed -i 's/upload_max_filesize_here/$upmax/' php-conf.ini
+sed -i 's/post_max_size_here/$postmax/' php-conf.ini
+sed -i 's/max_execution_time_here/$exectime/' php-conf.ini
+sed -i 's/memory_limit_here/$memlimit/' php-conf.ini
+sed -i 's/max_file_uploads_here/$upfile/' php-conf.ini
 
-# Below is under development
+cp php-conf.ini php.ini
+rm php-cong.ini
+
+# STEP 3: information about copying custom php.ini
+printf "Copy and replace your php.ini file from $(green)$currentdir/php.ini$(coloroff) to $(green)/etc/php/(your-php-version)/apache2/php.ini$(coloroff)\n"
+printf "$(red)Important!$(coloroff) please backup your default/current active php.ini config incase the problem occurs.\n\n"
+
+printf "Done. Program terminated."
